@@ -18,6 +18,7 @@ export class AuthGuard implements CanActivate {
   ) {}
   promiseResult: boolean;
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    this.authenticationService.localStorage();
     const currentUser = this.authenticationService.currentUserValue;
     const token = this.authenticationService.tokenValue;
     if (currentUser && token) {
@@ -38,8 +39,10 @@ export class AuthGuard implements CanActivate {
       if (!this.promiseResult) {
         this.router.navigate(["/login"]);
       }
+      console.log("hola");
       return this.promiseResult;
     } else {
+      console.log("no entro");
       this.router.navigate(["/login"]);
       return false;
     }

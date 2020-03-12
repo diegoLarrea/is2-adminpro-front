@@ -13,7 +13,9 @@ export class AuthenticationService {
   private tokenSubject: BehaviorSubject<String>;
   public token: Observable<String>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
+
+  public localStorage() {
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(localStorage.getItem("currentUser"))
     );
@@ -33,7 +35,9 @@ export class AuthenticationService {
     return this.tokenSubject.value;
   }
 
-  login(correoElectronico: string, password: string) {
+  login(correoElectronico: string, password: string): Observable<any> {
+    const body = { username: correoElectronico, password: password };
+    return this.http.post(`${AppSettings.api}/api/login/`, body);
     //   localStorage.setItem("currentUser", JSON.stringify(usuario));
     //   this.currentUserSubject.next(usuario);
   }
@@ -42,6 +46,8 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     localStorage.removeItem("currentUser");
     this.currentUserSubject.next(null);
+    localStorage.removeItem("token");
+    this.tokenSubject.next(null);
   }
 
   async isAuthenticated(token) {
@@ -60,5 +66,10 @@ export class AuthenticationService {
           return { auth: true };
         }
       });
+  }
+
+  saveData(user, token) {
+    localStorage.setItem("currentUser", JSON.stringify(user));
+    localStorage.setItem("token", token);
   }
 }

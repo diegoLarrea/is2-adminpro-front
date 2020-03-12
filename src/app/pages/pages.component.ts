@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthenticationService } from "../services/authentication.service";
 declare var $: any;
 @Component({
   selector: "app-pages",
@@ -6,9 +8,17 @@ declare var $: any;
   styleUrls: ["./pages.component.css"]
 })
 export class PagesComponent implements OnInit {
-  constructor() {}
-
+  constructor(private api: AuthenticationService, private router: Router) {}
+  u: any;
+  user = {
+    username: "",
+    password: ""
+  };
   ngOnInit(): void {
+    this.u = this.api.currentUserValue;
+    this.user.username = this.u.username;
+    this.user.password = this.u.password;
+    console.log(this.user);
     this.init();
   }
 
@@ -65,5 +75,10 @@ export class PagesComponent implements OnInit {
         );
       e.preventDefault();
     });
+  }
+
+  logout() {
+    this.api.logout();
+    this.router.navigate(["/login"]);
   }
 }
