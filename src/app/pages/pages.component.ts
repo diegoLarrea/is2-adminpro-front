@@ -11,14 +11,11 @@ export class PagesComponent implements OnInit {
   constructor(private api: AuthenticationService, private router: Router) {}
   u: any;
   user = {
-    username: "",
-    password: ""
+    username: ""
   };
   ngOnInit(): void {
     this.u = this.api.currentUserValue;
     this.user.username = this.u.username;
-    this.user.password = this.u.password;
-    console.log(this.user);
     this.init();
   }
 

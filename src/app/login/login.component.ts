@@ -25,13 +25,13 @@ export class LoginComponent implements OnInit {
     this.err.e = false;
     this.api.login(this.u, this.p).subscribe(
       data => {
-        this.api.saveData(data.currentUser, data.token);
+        this.api.saveData(data.currentUser, data.firebase);
         this.router.navigate(["dashboard"]);
       },
       error => {
         this.loading = false;
-        if (error.error.hasOwnProperty("error")) {
-          this.err.m = error.error.error;
+        if (error.error.error) {
+          this.err.m = error.error.mensaje;
         } else {
           this.err.m = "Usuario y/o contraseña inválido";
         }
