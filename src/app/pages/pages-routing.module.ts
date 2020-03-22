@@ -3,6 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { PagesComponent } from "./pages.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { AuthGuard } from "../services/auth.guard";
+import { ListUsersComponent } from "./users/list-users/list-users.component";
 
 const routes: Routes = [
   {
@@ -19,6 +20,12 @@ const routes: Routes = [
         path: "",
         redirectTo: "dashboard",
         pathMatch: "full"
+      },
+      {
+        path: "usuarios",
+        component: ListUsersComponent,
+        canActivate: [AuthGuard],
+        data: { permiso: "login" }
       }
     ]
   }

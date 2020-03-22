@@ -17,33 +17,72 @@
                                         <h1 class="h4 text-gray-900 mb-4">ADMIN <b>PRO</b></h1>
                                     </div>
                                     <form class="user">
-                                        <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-12 mb-3">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-at"></i></span>
+                                                    </div>
+                                                    <input [(ngModel)]="u" type="text" class="form-control"
+                                                        name="username" placeholder="Correo electrónico"
+                                                        aria-label="username" aria-describedby="username">
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-3">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i
+                                                                class="fas fa-lock"></i></span>
+                                                    </div>
+                                                    <input (keyup.enter)="u.length != 0 && p.length != 0?login():null"
+                                                        [(ngModel)]="p" type="password" class="form-control"
+                                                        placeholder="Contraseña" aria-label="pass" name="password"
+                                                        aria-describedby="pass">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="text-center">
+                                                    <button [class.disabled]="u.length == 0 || p.length == 0"
+                                                        (click)="login()" type="button"
+                                                        class="btn btn-primary btn-block">
+                                                        <span *ngIf="loading" class="spinner-border spinner-border-sm"
+                                                            role="status" aria-hidden="true"></span>
+                                                        <span [class.sr-only]="loading"><strong>Ingresar</strong></span>
+                                                    </button>
+                                                </div>
+                                                <div style="height: 20px;">
+                                                    <p *ngIf="err.e"
+                                                        class="text-danger text-center font-weight-bold m-0">
+                                                        <small>{{err.m}}</small></p>
+                                                </div>
+                                                <hr>
+                                                <div class="text-center">
+                                                    <a class="small" routerLink="/register" href="#">Registrarse</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="form-group">
                                             <input [(ngModel)]="u" name="user" type="email"
                                                 class="form-control form-control-user" id="exampleInputEmail"
                                                 aria-describedby="emailHelp" placeholder="Usuario">
-                                        </div>
-                                        <div class="form-group">
+                                        </div> -->
+                                        <!-- <div class="form-group">
                                             <input (keyup.enter)="u.length != 0 && p.length != 0?login():null"
                                                 [(ngModel)]="p" name="password" type="password"
                                                 class="form-control form-control-user" id="exampleInputPassword"
                                                 placeholder="Contraseña">
-                                        </div>
-                                        <a [class.disabled]="u.length == 0 || p.length == 0" (click)="login()"
+                                        </div> -->
+                                        <!-- <a [class.disabled]="u.length == 0 || p.length == 0" (click)="login()"
                                             class="btn btn-primary btn-user btn-block">
                                             <span *ngIf="loading"
                                                 class="spinner-border spinner-border-sm mr-2 text-white" role="status"
                                                 aria-hidden="true"></span>
                                             <span [class.sr-only]="loading" class="text-white">Ingresar</span>
-                                        </a>
-                                        <div style="height: 20px;">
-                                            <p *ngIf="err.e" class="text-danger text-center font-weight-bold m-0">
-                                                <small>{{err.m}}</small></p>
-                                        </div>
+                                        </a> -->
+
                                     </form>
-                                    <!-- <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="#">¿Olvidaste la contraseña?</a>
-                                    </div> -->
+
                                 </div>
                             </div>
                         </div>

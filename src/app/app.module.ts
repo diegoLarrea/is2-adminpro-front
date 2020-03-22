@@ -9,9 +9,10 @@ import { NotFoundComponent } from "./not-found/not-found.component";
 import { FormsModule } from "@angular/forms";
 import { ToastrModule } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NotFoundComponent],
+  declarations: [AppComponent, LoginComponent, NotFoundComponent, RegisterComponent],
   imports: [
     BrowserModule,
     PagesModule,

@@ -1,10 +1,10 @@
 export class User {
   id: number = null;
-  correoElectronico: string = "";
+  email: string = "";
+  username: string = "";
   password: string = "";
-  rol_id: any = null;
-  activo: string = "";
-  //token?: string = "";
-  ci: string = "";
-  fecha_creacion: string = "";
+  first_name: string = "";
+  last_name: string = "";
+  date_joined: string = "";
+  is_active: boolean = null;
 }
