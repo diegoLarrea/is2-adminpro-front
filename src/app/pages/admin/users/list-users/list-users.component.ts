@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { User } from "../../../models/user";
-import { UserService } from "../../../services/user.service";
-import { RolService } from "../../../services/rol.service";
+import { User } from "../../../../models/user";
+import { UserService } from "../../../../services/user.service";
+import { RolService } from "../../../../services/rol.service";
 import { ToastrService } from "ngx-toastr";
-import { DateFormatter } from "../../../utils/date.formatter";
+import { DateFormatter } from "../../../../utils/date.formatter";
 
 declare var $: any;
 @Component({
@@ -39,10 +39,15 @@ export class ListUsersComponent implements OnInit {
 
   getUsers() {
     this.loading = true;
-    this.apiUser.get().subscribe(data => {
+    this.apiUser.get().subscribe(
+    data => {
       this.users = data;
       this.loading = false;
-    });
+    },
+    error => {
+      this.loading = false;
+      this.toastr.error("Error al recuperar usuarios", "Usuarios");
+    } );
     this.getRoles();
   }
 
@@ -54,6 +59,9 @@ export class ListUsersComponent implements OnInit {
       setTimeout(() => {
         $("#rolSelect").selectpicker();
       }, 0);
+    },
+    error => {
+      this.toastr.error("Error al recuperar roles", "Usuarios");
     });
   }
 

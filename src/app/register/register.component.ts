@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { UserService } from "../services/user.service";
 import { User } from "../models/user";
 import { ToastrService } from "ngx-toastr";
+import { DateFormatter } from '../utils/date.formatter';
 
 @Component({
   selector: "app-register",
@@ -21,12 +22,15 @@ export class RegisterComponent implements OnInit {
       if (this.repeatPass === this.user.password) {
         this.loading = true;
         this.user.username = this.user.email;
+        this.user.date_joined = new DateFormatter().isoDateTime(new Date());
+        this.user.is_active = true;
         this.apiUser.post(this.user).subscribe(
           data => {
             this.toastr.success("Exito al crear cuenta", "Registro");
             this.loading = false;
           },
           error => {
+            console.log(error);
             this.toastr.error("Error al crear cuenta", "Registro");
             this.loading = false;
           }

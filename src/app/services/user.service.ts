@@ -11,11 +11,11 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   post(user: User): Observable<any> {
-    return this.http.post(`${AppSettings.api}/user/`, user);
+    return this.http.post(`api/user/`, user);
   }
 
   get(): Observable<any> {
-    return this.http.get(`${AppSettings.api}/user/`);
+    return this.http.get(`api/user/`);
   }
 
   asignarRol(id_user, roles): Observable<any> {
@@ -23,7 +23,7 @@ export class UserService {
     httpParams = httpParams.append("roles", roles);
 
     return this.http.post(
-      `${AppSettings.api}/user/${id_user}/asignar-rol/`,
+      `api/user/${id_user}/asignar-rol/`,
       {},
       { params: httpParams }
     );

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node ./src/server.js",
+    "start": "ng serve --proxy-config proxy.json --open --live-reload",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

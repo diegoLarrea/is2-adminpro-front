@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
     const token = this.authenticationService.tokenValue;
     if (currentUser && token) {
       await this.http
-        .post<any>(`${AppSettings.api}/is_auth/`, token)
+        .post<any>(`api/is_auth/`, token)
         .toPromise()
         .then(res => {
           this.authenticationService.saveData(currentUser, res.firebase);

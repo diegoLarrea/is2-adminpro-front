@@ -10,7 +10,7 @@ export class RolService {
   constructor(private http: HttpClient) {}
 
   get(): Observable<any> {
-    return this.http.get(`${AppSettings.api}/rol/`);
+    return this.http.get(`api/rol/`);
   }
 
   asignarPermiso(id_rol, id_permiso): Observable<any> {
@@ -18,7 +18,7 @@ export class RolService {
     httpParams = httpParams.append("permiso", id_permiso);
 
     return this.http.post(
-      `${AppSettings.api}/rol/${id_rol}/asignar-permiso/`,
+      `api/rol/${id_rol}/asignar-permiso/`,
       {},
       { params: httpParams }
     );
