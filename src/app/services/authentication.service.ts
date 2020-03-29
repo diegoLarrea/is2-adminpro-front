@@ -10,8 +10,8 @@ import { AppSettings } from "./app.config";
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  private tokenSubject: BehaviorSubject<String>;
-  public token: Observable<String>;
+  private tokenSubject: BehaviorSubject<Object>;
+  public token: Observable<Object>;
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +21,7 @@ export class AuthenticationService {
     );
     this.currentUser = this.currentUserSubject.asObservable();
 
-    this.tokenSubject = new BehaviorSubject<String>(
+    this.tokenSubject = new BehaviorSubject<Object>(
       localStorage.getItem("token")
     );
     this.token = this.tokenSubject.asObservable();
@@ -31,15 +31,13 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public get tokenValue(): String {
+  public get tokenValue(): Object {
     return this.tokenSubject.value;
   }
 
   login(correoElectronico: string, password: string): Observable<any> {
     const body = { username: correoElectronico, password: password };
-    return this.http.post(`${AppSettings.api}/api/login/`, body);
-    //   localStorage.setItem("currentUser", JSON.stringify(usuario));
-    //   this.currentUserSubject.next(usuario);
+    return this.http.post(`${AppSettings.api}/login/`, body);
   }
 
   logout() {
@@ -49,26 +47,8 @@ export class AuthenticationService {
     this.tokenSubject.next(null);
   }
 
-  async isAuthenticated(token) {
-    let header = new HttpHeaders({
-      Authorization: `Token ${token}`
-    });
-    return await this.http
-      .get<any>(`${AppSettings.sso}/api/isAuth/`, {
-        headers: header
-      })
-      .toPromise()
-      .then(res => {
-        if (res.status === 401) {
-          return { auth: false };
-        } else {
-          return { auth: true };
-        }
-      });
-  }
-
   saveData(user, token) {
     localStorage.setItem("currentUser", JSON.stringify(user));
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", JSON.stringify(token));
   }
 }

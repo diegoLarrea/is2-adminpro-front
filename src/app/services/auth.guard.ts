@@ -22,18 +22,15 @@ export class AuthGuard implements CanActivate {
     const currentUser = this.authenticationService.currentUserValue;
     const token = this.authenticationService.tokenValue;
     if (currentUser && token) {
-      let header = new HttpHeaders({
-        Authorization: `Token ${token}`
-      });
       await this.http
-        .get<any>(`${AppSettings.sso}/api/isAuth/`, {
-          headers: header
-        })
+        .post<any>(`api/is_auth/`, token)
         .toPromise()
         .then(res => {
+          this.authenticationService.saveData(currentUser, res.firebase);
           this.promiseResult = true;
         })
         .catch(err => {
+          this.authenticationService.logout();
           this.promiseResult = false;
         });
       if (!this.promiseResult) {

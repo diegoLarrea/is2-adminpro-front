@@ -17,35 +17,40 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="#" routerLink="/dashboard">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider" style="margin: 0px 16px 0px">
-
-        <!-- Heading -->
-        <!-- <div class="sidebar-heading">
-            Administración
-          </div> -->
-
-        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                 aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Administración</span>
+                <i class="fas fa-briefcase"></i>
+                <span>Proyectos</span>
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <!-- <h6 class="collapse-header">Custom Components:</h6> -->
-                    <a class="collapse-item" href="buttons.html">Usuarios</a>
-                    <a class="collapse-item" href="cards.html">Roles</a>
+                    <a routerLink="/mis-proyectos" class="collapse-item">Mis proyectos</a>
+                    <a routerLink="/administracion/proyectos" class="collapse-item">Ver proyectos</a>
+                    <a routerLink="/administracion/proyectos/agregar" class="collapse-item" >Agregar proyecto</a>
                 </div>
             </div>
         </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider" style="margin: 0px 16px 0px">
+        <li class="nav-item">
+            <a class="nav-link" href="#" routerLink="/administracion/usuarios">
+                <i class="fas fa-users"></i>
+                <span>Usuarios</span>
+            </a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider" style="margin: 0px 16px 0px">
+        <li class="nav-item">
+            <a class="nav-link" href="#" routerLink="/administracion/roles-sistema">
+                <i class="fas fa-users-cog"></i>
+                <span>Roles de Sistema</span>
+            </a>
+        </li>
+
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
