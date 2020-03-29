@@ -7,6 +7,8 @@ import { ListarProyectoComponent } from './admin/proyectos/listar-proyecto/lista
 import { MisProyectosComponent } from './proyectos/mis-proyectos/mis-proyectos.component';
 import { AgregarProyectoComponent } from './admin/proyectos/agregar-proyecto/agregar-proyecto.component';
 import { EditarProyectoComponent } from './admin/proyectos/editar-proyecto/editar-proyecto.component';
+import { ListRolesComponent } from './admin/roles/list-roles/list-roles.component';
+import { PermisosRolSistemaComponent } from './admin/roles/permisos-rol-sistema/permisos-rol-sistema.component';
 
 const routes: Routes = [
   {
@@ -39,6 +41,14 @@ const routes: Routes = [
       {
         path: "administracion/usuarios",
         component: ListUsersComponent
+      },
+      {
+        path: "administracion/roles-sistema",
+        component: ListRolesComponent
+      },
+      {
+        path: "administracion/roles-sistema/:id/gestionar",
+        component: PermisosRolSistemaComponent
       }
     ]
   }

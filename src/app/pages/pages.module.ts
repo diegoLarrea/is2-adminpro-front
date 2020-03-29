@@ -13,6 +13,8 @@ import { ListarProyectoComponent } from './admin/proyectos/listar-proyecto/lista
 import { AgregarProyectoComponent } from './admin/proyectos/agregar-proyecto/agregar-proyecto.component';
 import { EditarProyectoComponent } from './admin/proyectos/editar-proyecto/editar-proyecto.component';
 import { MisProyectosComponent } from './proyectos/mis-proyectos/mis-proyectos.component';
+import { ListRolesComponent } from './admin/roles/list-roles/list-roles.component';
+import { PermisosRolSistemaComponent } from './admin/roles/permisos-rol-sistema/permisos-rol-sistema.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { MisProyectosComponent } from './proyectos/mis-proyectos/mis-proyectos.c
     ListarProyectoComponent,
     AgregarProyectoComponent,
     EditarProyectoComponent,
-    MisProyectosComponent
+    MisProyectosComponent,
+    ListRolesComponent,
+    PermisosRolSistemaComponent
   ],
   imports: [
     CommonModule,

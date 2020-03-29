@@ -13,14 +13,19 @@ export class RolService {
     return this.http.get(`api/rol/`);
   }
 
-  asignarPermiso(id_rol, id_permiso): Observable<any> {
-    let httpParams = new HttpParams();
-    httpParams = httpParams.append("permiso", id_permiso);
+  post(body): Observable<any> {
+    return this.http.post(`api/rol/`, body);
+  }
 
-    return this.http.post(
-      `api/rol/${id_rol}/asignar-permiso/`,
-      {},
-      { params: httpParams }
-    );
+  obtenerPermisos(id_rol):Observable<any> {
+    return this.http.get(`api/rol/${id_rol}/permisos`);
+  }
+
+  desasignarPermiso(id_rol, id_permiso): Observable<any> {
+    return this.http.delete(`api/rol/${id_rol}/permisos/${id_permiso}`)
+  }
+
+  asignarPermiso(id_rol, id_permiso): Observable<any> {
+    return this.http.post(`api/rol/${id_rol}/permisos/${id_permiso}`, {})
   }
 }

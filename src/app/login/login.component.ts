@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
       data => {
         this.api.saveData(data.currentUser, data.firebase);
         this.router.navigate([""]);
+        this.loading = false;
       },
       error => {
         this.loading = false;
