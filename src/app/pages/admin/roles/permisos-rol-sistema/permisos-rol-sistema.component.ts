@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RolService } from 'src/app/services/rol.service';
+import { RolSistemaService } from 'src/app/services/rol.service';
 
 @Component({
   selector: 'app-permisos-rol-sistema',
@@ -13,13 +13,14 @@ export class PermisosRolSistemaComponent implements OnInit {
   asignados = [];
   idRol = null;
   rol = {
-    id: null,
-    nombre: "",
-    type: "",
+    rol: {
+      id: null,
+      nombre: ""
+    },
     permisos_asignados: [],
     permisos_disponibles: []
   }
-  constructor(private route: ActivatedRoute, private apiRol: RolService) { 
+  constructor(private route: ActivatedRoute, private apiRol: RolSistemaService) { 
     this.idRol = route.snapshot.paramMap.get("id");
   }
 
@@ -29,7 +30,7 @@ export class PermisosRolSistemaComponent implements OnInit {
 
   obtenerPermisos(){
     this.loading = true;
-    this.apiRol.obtenerPermisos(this.idRol).subscribe(
+    this.apiRol.getPermisos(this.idRol).subscribe(
       data => {
         this.rol = data;
         this.loading = false;

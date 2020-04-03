@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm mb-4 mt-2">
+            <div class="card-header" style="height: 125px;">
+                <div class="row align-items-center h-100">
+                    <div class="col-6 mx-auto">
+                        <h1 class="text-white text-center">{{proyecto.nombre}}</h1>
+                    </div>
+                </div>
+                <div class="overlay">
+                    <div class="text-cap">{{proyecto.descripcion}}</div>
+                  </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a *ngxPermissionsOnly="['per_proyectos_ver_datalles']" class="nav-link" href="#detalles" role="tab" data-toggle="tab">Detalles del proyecto</a>
+                              </li>
+                            <li class="nav-item">
+                              <a *ngxPermissionsOnly="['per_proyectos_usuarios_listar']" class="nav-link" href="#miembros" role="tab" data-toggle="tab">Miembros</a>
+                            </li>
+                            <li class="nav-item">
+                              <a *ngxPermissionsOnly="['per_proyectos_roles_listar']" class="nav-link" href="#roles" role="tab" data-toggle="tab">Roles del proyecto</a>
+                            </li>
+                          </ul>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div style="padding: 16px;">
+                                <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div *ngxPermissionsOnly="['per_proyectos_ver_datalles']" role="tabpanel" class="tab-pane fade" id="detalles">
+                                            <app-proyecto-detalles [perms]="perms" [detalles]="proyecto"></app-proyecto-detalles>
+                                        </div>
+                                        <div *ngxPermissionsOnly="['per_proyectos_usuarios_listar']" role="tabpanel" class="tab-pane fade" id="miembros">
+                                            <app-proyecto-users [perms]="perms" [detalles]="proyecto" [idProyecto]="proyectoId"></app-proyecto-users>
+                                        </div>
+                                        <div *ngxPermissionsOnly="['per_proyectos_roles_listar']" role="tabpanel" class="tab-pane fade" id="roles">
+                                            <app-proyecto-roles [perms]="perms" [idProyecto]="proyectoId"></app-proyecto-roles>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,1 +1,43 @@
-<p>listar-proyecto works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm mb-4 mt-2">
+            <div class="card-header py-3">
+                <div class="row h-100">
+                    <div class="col-6 my-auto">
+                        <h5 class="m-0 font-weight-bold text-azul">
+                            Proyectos <div *ngIf="loading" class="spinner-border spinner-border-sm text-success ml-1"
+                                role="status"></div>
+                        </h5>
+                    </div>
+                    <div class="col-6">
+                        <button routerLink="/administracion/proyectos/agregar" type="button" class="btn btn-primary float-right">Agregar <i class="fas fa-briefcase ml-2"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">Nombre</th>
+                                <th style="width: 50%;">Descripción</th>
+                                <th style="width: 20%;">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let i of proyectos | paginate: { itemsPerPage: 10, currentPage: p }">
+                                <td>{{i.nombre}}</td>
+                                <td>{{i.descripcion}}</td>
+                                <td>{{i.estado}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <pagination-controls class="my-pagination" (pageChange)="p = $event" previousLabel="" nextLabel="">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

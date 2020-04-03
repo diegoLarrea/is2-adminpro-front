@@ -6,26 +6,34 @@ import { AppSettings } from "./app.config";
 @Injectable({
   providedIn: "root"
 })
-export class RolService {
+export class RolSistemaService {
   constructor(private http: HttpClient) {}
 
   get(): Observable<any> {
-    return this.http.get(`api/rol/`);
+    return this.http.get(`api/roles-sistema/`);
   }
 
   post(body): Observable<any> {
-    return this.http.post(`api/rol/`, body);
+    return this.http.post(`api/roles-sistema/`, body);
   }
 
-  obtenerPermisos(id_rol):Observable<any> {
-    return this.http.get(`api/rol/${id_rol}/permisos`);
+  getByUserId(id): Observable<any>{
+    return this.http.get(`api/user/${id}/roles-sistema`)
+  }
+
+  getPermisos(id_rol):Observable<any> {
+    return this.http.get(`api/roles-sistema/${id_rol}/permisos`);
   }
 
   desasignarPermiso(id_rol, id_permiso): Observable<any> {
-    return this.http.delete(`api/rol/${id_rol}/permisos/${id_permiso}`)
+    return this.http.delete(`api/roles-sistema/${id_rol}/permisos/${id_permiso}`)
   }
 
   asignarPermiso(id_rol, id_permiso): Observable<any> {
-    return this.http.post(`api/rol/${id_rol}/permisos/${id_permiso}`, {})
+    return this.http.post(`api/roles-sistema/${id_rol}/permisos/${id_permiso}`, {})
+  }
+
+  delete(id_rol): Observable<any> {
+    return this.http.delete(`api/roles-sistema/${id_rol}`);
   }
 }

@@ -8,15 +8,15 @@ import { AppSettings } from "./app.config";
 
 @Injectable({ providedIn: "root" })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject<Object>;
+  public currentUser: Observable<Object>;
   private tokenSubject: BehaviorSubject<Object>;
   public token: Observable<Object>;
 
   constructor(private http: HttpClient) {}
 
   public localStorage() {
-    this.currentUserSubject = new BehaviorSubject<User>(
+    this.currentUserSubject = new BehaviorSubject<Object>(
       JSON.parse(localStorage.getItem("currentUser"))
     );
     this.currentUser = this.currentUserSubject.asObservable();
@@ -27,7 +27,7 @@ export class AuthenticationService {
     this.token = this.tokenSubject.asObservable();
   }
 
-  public get currentUserValue(): User {
+  public get currentUserValue(): Object {
     return this.currentUserSubject.value;
   }
 

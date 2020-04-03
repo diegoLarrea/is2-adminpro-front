@@ -36,6 +36,21 @@ export class AuthGuard implements CanActivate {
       if (!this.promiseResult) {
         this.router.navigate(["/login"]);
       }
+
+      let u = JSON.parse(localStorage.getItem("currentUser"))
+      let perms = [];
+      for(let i=0; i< u.permisos_sistema.length; i++){
+        let rol = u.permisos_sistema[i];
+        for(let j=0; j< rol.permisos.length; j++){
+          perms.push(rol.permisos[j].permiso)
+        }
+      }
+
+      if (route.firstChild.data.permiso && perms.indexOf(route.data.permiso) === -1){
+        this.router.navigate([""]);
+        return false;
+      }
+      
       return this.promiseResult;
     } else {
       this.router.navigate(["/login"]);

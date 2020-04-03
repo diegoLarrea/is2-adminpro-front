@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { User } from "../../../../models/user";
 import { UserService } from "../../../../services/user.service";
-import { RolService } from "../../../../services/rol.service";
+import { RolSistemaService } from "../../../../services/rol.service";
 import { ToastrService } from "ngx-toastr";
 import { DateFormatter } from "../../../../utils/date.formatter";
+import { NgxPermissionsService } from 'ngx-permissions';
 
 declare var $: any;
 @Component({
@@ -20,7 +21,7 @@ export class ListUsersComponent implements OnInit {
   //Variables de modal agregar usuario
   user = new User();
   repeatPass = "";
-  rolesUser = [];
+  rolesAsignados = [];
   loadingSave = false;
 
   //Variable de paginado
@@ -28,13 +29,22 @@ export class ListUsersComponent implements OnInit {
 
   constructor(
     private apiUser: UserService,
-    private apiRol: RolService,
-    private toastr: ToastrService
+    private apiRol: RolSistemaService,
+    private toastr: ToastrService,
+    private permissionsService: NgxPermissionsService
   ) {}
 
   ngOnInit(): void {
-    console.log(new DateFormatter().isoDateTime(new Date()));
     this.getUsers();
+    let u = JSON.parse(localStorage.getItem("currentUser"))
+    let perms = [];
+    for(let i=0; i< u.permisos_sistema.length; i++){
+      let rol = u.permisos_sistema[i];
+      for(let j=0; j< rol.permisos.length; j++){
+        perms.push(rol.permisos[j].permiso)
+      }
+    }
+    this.permissionsService.loadPermissions(perms);
   }
 
   getUsers() {
@@ -53,9 +63,7 @@ export class ListUsersComponent implements OnInit {
 
   getRoles() {
     this.apiRol.get().subscribe(data => {
-      this.roles = data.filter(it => {
-        return it.type == "S";
-      });
+      this.roles = data;
       setTimeout(() => {
         $("#rolSelect").selectpicker();
       }, 0);
@@ -65,41 +73,27 @@ export class ListUsersComponent implements OnInit {
     });
   }
 
-  async postUser() {
+  postUser() {
     if (this.check()) {
       if (this.repeatPass === this.user.password) {
         this.loadingSave = true;
-        let idNewUser = null;
         this.user.username = this.user.email;
         this.user.is_active = true;
         this.user.date_joined = new DateFormatter().isoDateTime(new Date());
-        await this.apiUser
-          .post(this.user)
-          .toPromise()
-          .then(
-            res => {
-              idNewUser = res.id;
-              this.toastr.success("Usuario creado correctamente", "Usuarios");
-            },
-            error => {
-              this.toastr.error("Error al crear usuario", "Usuarios");
-            }
-          );
-        if (this.rolesUser.length > 0) {
-          this.apiUser
-            .asignarRol(idNewUser, JSON.stringify(this.rolesUser))
-            .subscribe(
-              data => {
-                this.toastr.success(
-                  "Roles asignados correctamente",
-                  "Usuarios"
-                );
-              },
-              error => {
-                this.toastr.error("Error al asignar roles", "Usuarios");
-              }
-            );
+        const body = {
+          user: this.user,
+          roles: this.rolesAsignados
         }
+        console.log(body);
+        this.apiUser.post(body).subscribe(
+          data => {
+            this.toastr.success("Usuario creado");
+            this.getUsers();
+          },
+          error => {
+            this.toastr.error("Error al crear usuario");
+          }
+        )
         this.loadingSave = false;
       } else {
         this.toastr.error("Error, las contraseñas no coinciden", "Usuarios");
@@ -122,5 +116,66 @@ export class ListUsersComponent implements OnInit {
   clear() {
     this.user = new User();
     this.repeatPass = "";
+    this.rolesAsignados = [];
+    setTimeout(() => {
+      $("#rolSelect").selectpicker();
+    }, 0);
+  }
+
+  userRoles = [];
+  userRolModal: User = new User();
+  userRolesDisponibles = [];
+  loadingUserRoles = false;
+  getUserRoles(user){
+    this.loadingUserRoles = true;
+    this.userRolModal = user;
+    this.userRoles = [];
+    this.userRolesDisponibles = [];
+    this.apiRol.getByUserId(user.id).subscribe(
+      data =>{
+        this.userRoles = data;
+
+        for(let i=0; i< this.roles.length; i++){
+          let isIn = false;
+          for(let j=0; j<this.userRoles.length; j++){
+            if(this.roles[i].id == this.userRoles[j].id){
+              isIn = true;
+              break;
+            }
+          }
+          if(!isIn){
+            this.userRolesDisponibles.push(this.roles[i]);
+          }
+        }
+
+        this.loadingUserRoles = false;
+      }
+    )
+  }
+
+  updateUser(user){
+    user.is_active = !user.is_active;
+
+    this.apiUser.put(user).subscribe(
+      data => {
+        this.getUsers();
+      }
+    )
+  }
+
+  asignarRol(userId, rolId){
+    this.apiUser.postUserRolSistema(userId, rolId).subscribe(
+      data => {
+        this.getUserRoles(this.userRolModal);
+      }
+    )
+  }
+
+  desasignarRol(userId, rolId){
+    this.apiUser.deleteUserRolSistema(userId, rolId).subscribe(
+      data => {
+        this.getUserRoles(this.userRolModal);
+      }
+    )
   }
 }

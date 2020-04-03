@@ -10,22 +10,31 @@ import { User } from "../models/user";
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  post(user: User): Observable<any> {
-    return this.http.post(`api/user/`, user);
+  post(body): Observable<any> {
+    return this.http.post(`api/user/`, body);
   }
 
   get(): Observable<any> {
     return this.http.get(`api/user/`);
   }
 
-  asignarRol(id_user, roles): Observable<any> {
-    let httpParams = new HttpParams();
-    httpParams = httpParams.append("roles", roles);
+  put(user: User): Observable<any> {
+    return this.http.put(`api/user/${user.id}`, user);
+  }
 
-    return this.http.post(
-      `api/user/${id_user}/asignar-rol/`,
-      {},
-      { params: httpParams }
-    );
+  postUserRolSistema(idUser,idRol): Observable<any> {
+    return this.http.post(`api/user/${idUser}/roles-sistema/${idRol}`, {})
+  }
+
+  deleteUserRolSistema(idUser,idRol): Observable<any> {
+    return this.http.delete(`api/user/${idUser}/roles-sistema/${idRol}`, {})
+  }
+
+  postUserRolProyecto(idUser,idRol): Observable<any> {
+    return this.http.post(`api/user/${idUser}/roles-proyecto/${idRol}`, {})
+  }
+
+  deleteUserRolProyecto(idUser,idRol): Observable<any> {
+    return this.http.delete(`api/user/${idUser}/roles-proyecto/${idRol}`, {})
   }
 }

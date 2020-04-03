@@ -24,7 +24,11 @@ export class RegisterComponent implements OnInit {
         this.user.username = this.user.email;
         this.user.date_joined = new DateFormatter().isoDateTime(new Date());
         this.user.is_active = true;
-        this.apiUser.post(this.user).subscribe(
+        const body = {
+          user: this.user,
+          roles: []
+        }
+        this.apiUser.post(body).subscribe(
           data => {
             this.toastr.success("Exito al crear cuenta", "Registro");
             this.loading = false;

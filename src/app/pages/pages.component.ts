@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthenticationService } from "../services/authentication.service";
+import { NgxPermissionsService } from 'ngx-permissions';
 declare var $: any;
 @Component({
   selector: "app-pages",
@@ -8,15 +9,24 @@ declare var $: any;
   styleUrls: ["./pages.component.css"]
 })
 export class PagesComponent implements OnInit {
-  constructor(private api: AuthenticationService, private router: Router) {}
+  constructor(private permissionsService: NgxPermissionsService,private api: AuthenticationService, private router: Router) {}
   u: any;
   user = {
     username: ""
   };
+
   ngOnInit(): void {
     this.u = this.api.currentUserValue;
     this.user.username = this.u.username;
     this.init();
+    let perms = [];
+    for(let i=0; i< this.u.permisos_sistema.length; i++){
+      let rol = this.u.permisos_sistema[i];
+      for(let j=0; j< rol.permisos.length; j++){
+        perms.push(rol.permisos[j].permiso)
+      }
+    }
+    this.permissionsService.loadPermissions(perms);
   }
 
   init() {

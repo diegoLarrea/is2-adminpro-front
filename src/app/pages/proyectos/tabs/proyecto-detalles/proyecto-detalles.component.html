@@ -1,0 +1,27 @@
+<div class="row" *ngxPermissionsOnly="['per_proyectos_ver_datalles']">
+    <div class="col-12">
+        <h4 style="font-weight: bold;">{{detalles.nombre}}</h4>
+    </div>
+    <div class="col-12">
+        <h6>
+            {{detalles.descripcion}}
+        </h6>
+    </div>
+    <div class="col-12">
+        <h6>Estado: <b>{{detalles.estado}}</b></h6>
+    </div>
+    <!-- <div class="col-12 mt-3">
+        <h5><b>Fases</b></h5>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Iniciado</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+    </div> -->
+</div>

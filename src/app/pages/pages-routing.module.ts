@@ -9,6 +9,7 @@ import { AgregarProyectoComponent } from './admin/proyectos/agregar-proyecto/agr
 import { EditarProyectoComponent } from './admin/proyectos/editar-proyecto/editar-proyecto.component';
 import { ListRolesComponent } from './admin/roles/list-roles/list-roles.component';
 import { PermisosRolSistemaComponent } from './admin/roles/permisos-rol-sistema/permisos-rol-sistema.component';
+import { MisProyectosDetailComponent } from './proyectos/mis-proyectos-detail/mis-proyectos-detail.component';
 
 const routes: Routes = [
   {
@@ -23,32 +24,41 @@ const routes: Routes = [
       },
       {
         path: "mis-proyectos",
-        component: MisProyectosComponent,
-        data: { permiso: "login" }
+        component: MisProyectosComponent
+      },
+      {
+        path: "mis-proyectos/:id",
+        component: MisProyectosDetailComponent
       },
       {
         path: "administracion/proyectos",
         component: ListarProyectoComponent,
+        data: { permiso: "per_proyectos_listar" }
       },
       {
         path: "administracion/proyectos/agregar",
         component: AgregarProyectoComponent,
+        data: { permiso: "per_proyectos_agregar" }
       },
       {
         path: "administracion/proyectos/editar/:id",
         component: EditarProyectoComponent,
+        data: { permiso: "per_proyectos_agregar" }
       },
       {
         path: "administracion/usuarios",
-        component: ListUsersComponent
+        component: ListUsersComponent,
+        data: { permiso: "per_usuarios_listar" }
       },
       {
         path: "administracion/roles-sistema",
-        component: ListRolesComponent
+        component: ListRolesComponent,
+        data: { permiso: "per_roles_sistema_listar" }
       },
       {
         path: "administracion/roles-sistema/:id/gestionar",
-        component: PermisosRolSistemaComponent
+        component: PermisosRolSistemaComponent,
+        data: { permiso: "per_roles_sistema_editar" }
       }
     ]
   }

@@ -15,6 +15,11 @@ import { EditarProyectoComponent } from './admin/proyectos/editar-proyecto/edita
 import { MisProyectosComponent } from './proyectos/mis-proyectos/mis-proyectos.component';
 import { ListRolesComponent } from './admin/roles/list-roles/list-roles.component';
 import { PermisosRolSistemaComponent } from './admin/roles/permisos-rol-sistema/permisos-rol-sistema.component';
+import { MisProyectosDetailComponent } from './proyectos/mis-proyectos-detail/mis-proyectos-detail.component';
+import { ProyectoUsersComponent } from './proyectos/tabs/proyecto-users/proyecto-users.component';
+import { ProyectoRolesComponent } from './proyectos/tabs/proyecto-roles/proyecto-roles.component';
+import { ProyectoDetallesComponent } from './proyectos/tabs/proyecto-detalles/proyecto-detalles.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,11 @@ import { PermisosRolSistemaComponent } from './admin/roles/permisos-rol-sistema/
     EditarProyectoComponent,
     MisProyectosComponent,
     ListRolesComponent,
-    PermisosRolSistemaComponent
+    PermisosRolSistemaComponent,
+    MisProyectosDetailComponent,
+    ProyectoUsersComponent,
+    ProyectoRolesComponent,
+    ProyectoDetallesComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +43,7 @@ import { PermisosRolSistemaComponent } from './admin/roles/permisos-rol-sistema/
     ToastrModule.forRoot(),
     NgxPaginationModule,
     FormsModule,
+    NgxPermissionsModule.forRoot(),
     PagesRoutingModule
   ]
 })

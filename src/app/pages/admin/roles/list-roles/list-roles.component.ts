@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from "../../../../models/user";
 import { UserService } from "../../../../services/user.service";
-import { RolService } from "../../../../services/rol.service";
+import { RolSistemaService } from "../../../../services/rol.service";
 import { ToastrService } from "ngx-toastr";
 import { DateFormatter } from "../../../../utils/date.formatter";
 declare var $:any;
@@ -26,7 +26,7 @@ export class ListRolesComponent implements OnInit {
     rol: string = "";
     constructor(
       private apiUser: UserService,
-      private apiRol: RolService,
+      private apiRol: RolSistemaService,
       private toastr: ToastrService
     ) {}
   
@@ -37,9 +37,7 @@ export class ListRolesComponent implements OnInit {
     getRoles() {
       this.loading = true;
       this.apiRol.get().subscribe(data => {
-        this.roles = data.filter(it => {
-          return it.type == "S";
-        });
+        this.roles = data;
         this.loading = false;
       },
       error => {
@@ -51,14 +49,14 @@ export class ListRolesComponent implements OnInit {
       if(this.rol != ""){
         this.loadingSave = true;
         let body = {
-          nombre: this.rol,
-          type: 'S'
+          nombre: this.rol
         }
         this.apiRol.post(body).subscribe(
           data => {
             this.toastr.success("Rol agregado");
             this.rol = "";
             this.loadingSave = false;
+            this.getRoles();
           },
           error => {
             this.toastr.error("Error al guardar rol");
@@ -66,5 +64,26 @@ export class ListRolesComponent implements OnInit {
           }
         )
       }
+    }
+
+    eliminarRol(id){
+      this.apiRol.delete(id).subscribe(
+        data => {
+          this.getRoles();
+        },
+        error => {
+          let err = error.error;
+
+          if(err.error){
+            if(err.hasOwnProperty("mensaje")){
+              this.toastr.error(err.mensaje);
+            }else{
+              this.toastr.error("Error al eliminar rol");
+            }
+          }else{
+            this.toastr.error("Error al eliminar rol");
+          }
+        }
+      )
     }
 }

@@ -1,0 +1,196 @@
+<div class="row">
+    <div class="col-12">
+        <div class="row h-100">
+            <div class="col-6 my-auto">
+                <h5 class="m-0 font-weight-bold text-azul">
+                    Miembros <div *ngIf="loading" class="spinner-border spinner-border-sm text-success ml-1"
+                        role="status"></div>
+                </h5>
+            </div>
+            <div class="col-6 mb-3">
+                <button *ngxPermissionsOnly="['per_proyectos_usuarios_agregar']" (click)="getAllUsers()" type="button" class="btn btn-primary float-right" data-toggle="modal"
+                    data-target="#listUsers">Agregar <i class="fas fa-user-plus ml-2"></i></button>
+            </div>
+            <div class="col-12">
+                <div class="table-responsive" *ngxPermissionsOnly="['per_proyectos_usuarios_listar']">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Correo Electronico</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let i of users | paginate: { itemsPerPage: 10, currentPage: p }">
+                                <td>{{i.first_name}}</td>
+                                <td>{{i.last_name}}</td>
+                                <td>{{i.email}}</td>
+                                <td class="text-center">
+                                    <a data-toggle="modal" data-target="#rolesModal"  (click)="getUserRoles(i)" title="Ver roles" class="text-primary">
+                                        <i class="fas fa-user-cog"></i></a>
+                                    <!-- <a title="Eliminar usuario de proyecto" class="text-primary ml-2">
+                                        <i class="fas fa-user-times"></i>
+                                    </a> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <pagination-controls class="my-pagination" (pageChange)="p = $event" previousLabel="" nextLabel="">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="listUsers" tabindex="-1" role="dialog" aria-labelledby="listUsersLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg  modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="listUsersLabel">Agregar usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <h6><b>Usuarios</b></h6>
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th class="text-center" style="width: 10%;" scope="col">#</th>
+                                <th style="width: 40%;" scope="col">Nombre</th>
+                                <th style="width: 40%;" scope="col">Email</th>
+                                <th class="text-center" style="width: 10%;" scope="col">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let i of usersAll; index as j;">
+                                <td class="text-center">{{j + 1}}</td>
+                                <td>{{i.first_name}}  {{i.last_name}}</td>
+                                <td>{{i.email}}</td>
+                                <td (click)="usuarioRolModal=i;" data-toggle="modal" data-target="#addRolModal" class="text-center"><a title="Agregar usuario" style="cursor: pointer;"><i class="fas fa-user-plus"></i></a></td>
+                              </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-center" *ngIf="!loadingAllUsers && usersAll.length==0">No existen usuarios disponibles</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="rolesModal" tabindex="-1" role="dialog" aria-labelledby="rolesModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rolesModalLabel">Usuario: {{userRolModal.first_name}} {{userRolModal.last_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <h6><b>Roles asignados</b></h6>
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th class="text-center" style="width: 15%;" scope="col">#</th>
+                                <th style="width: 70%;" scope="col">Nombre</th>
+                                <th class="text-center" style="width: 15%;" scope="col">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let i of userRoles; index as j;">
+                                <td class="text-center">{{j + 1}}</td>
+                                <td>{{i.nombre}}</td>
+                                <td (click)="desasignarRol(userRolModal.id, i.id)" class="text-center"><a title="Remover rol" style="cursor: pointer;"><i class="fas fa-times text-danger"></i></a></td>
+                              </tr>
+                            </tbody>
+                        </table>
+                        <p class="text-center" *ngIf="!loadingUserRoles && userRoles.length==0">No existen roles asignados</p>
+                    </div>
+                    <div class="col-6">
+                        <h6><b>Roles disponibles</b></h6>
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th class="text-center" style="width: 15%;" scope="col">#</th>
+                                <th style="width: 70%;" scope="col">Nombre</th>
+                                <th class="text-center" style="width: 15%;" scope="col">Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let i of userRolesDisponibles; index as j;">
+                                <td class="text-center">{{j + 1}}</td>
+                                <td>{{i.nombre}}</td>
+                                <td (click)="asignarRol(userRolModal.id, i.id)" class="text-center"><a title="Asignar rol" style="cursor: pointer;"><i class="fas fa-check text-success"></i></a></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <p class="text-center" *ngIf="!loadingUserRoles && userRolesDisponibles.length==0">No existen roles disponibles</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addRolModal" tabindex="-1" role="dialog" aria-labelledby="addRolModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="addRolModalTitle">{{detalles.nombre}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12">
+                    <h5>Usuario: {{usuarioRolModal.first_name}} {{usuarioRolModal.last_name}}</h5>
+                </div>
+                <div class="col-12">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                          <tr>
+                            <th style="width: 85%;" scope="col">Rol</th>
+                            <th class="text-center" style="width: 15%;" scope="col">#</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let i of roles; index as j;">
+                            <td>{{i.nombre}}</td>
+                            <td class="text-center"><input [(ngModel)]="isChecked[j]" (change)="checkValue(isChecked[j]?{rol:i,pos:j}:{pos:j})" type="checkbox"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    <!-- <select data-live-search="true" [(ngModel)]="rolesAsignados" name="roles" class="w-100" id="rolSelect" multiple
+                        title="Roles del proyecto">
+                        <option attr.data-tokens="{{i.nombre}}" *ngFor="let i of roles" [value]="i">{{i.nombre}}</option>
+                    </select> -->
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button (click)="agregarUsuarioProyecto(usuarioRolModal,rolesAsignadosRolModal)" type="button" class="btn btn-primary">Agregar usuario</button>
+        </div>
+        </div>
+    </div>
+</div>

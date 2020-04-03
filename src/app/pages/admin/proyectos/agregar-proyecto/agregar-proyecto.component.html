@@ -1,1 +1,27 @@
-<p>agregar-proyecto works!</p>
+<div class="row">
+    <div class="col-12">
+        <h4>Agregar Proyecto</h4>
+    </div>
+    <div class="col-12 mb-3">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+            </div>
+            <input [(ngModel)]="proyecto.nombre" name="nombre" type="text" class="form-control" placeholder="Nombre del Proyecto"
+                aria-label="nombres" aria-describedby="nombres">
+        </div>
+    </div>
+    <div class="col-12 mb-3">
+        <div class="input-group">
+            <textarea [(ngModel)]="proyecto.descripcion" name="descripcion" class="form-control" aria-label="Descripción" placeholder="Descripción del proyecto"></textarea>
+        </div>
+    </div>
+    <div class="col-12 mb-3">
+        <select data-live-search="true" [(ngModel)]="user" name="gerente" class="w-100" id="userSelect" title="Gerente del proyecto">
+            <option attr.data-tokens="{{i.first_name}} {{i.last_name}}" *ngFor="let i of usuarios" [value]="i.id">{{i.first_name}} {{i.last_name}} ({{i.email}})</option>
+        </select>
+    </div>
+    <div class="col-12">
+        <button (click)="postProyecto()" type="button" class="btn btn-primary btn-lg float-right">Guardar Proyecto</button>
+    </div>
+</div>
