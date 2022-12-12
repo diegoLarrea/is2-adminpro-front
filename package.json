@@ -23,7 +23,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-select": "^1.13.12",
     "dateformat": "^3.0.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "firebase": "^7.8.0",
     "forms-angular": "^0.12.0-beta.61",
     "jquery": "^3.4.1",
